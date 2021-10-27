@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #prediction {
+            font-size: 25px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>TENSORFLOW EXAMPLES</h1>
+    <!-- Replace this with your image. Make sure CORS settings allow reading the image! -->
+    <img id="img" src="cat.png" />
+    <p id="prediction">예측이 완료되면 여기에 표시됩니다.</p>
+
+
+    <!-- Load TensorFlow.js. This is required to use MobileNet. -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.1"> </script>
+    <!-- Load the MobileNet model. -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@1.0.0"> </script>
+    <!-- Place your code in the script tag below. You can also use an external .js file -->
+    <script>
+        // Notice there is no 'import' statement. 'mobilenet' and 'tf' is
+        // available on the index-page because of the script tag above.
+
+        const img = document.getElementById('img');
+
+        // Load the model.
+        mobilenet.load().then(model => {
+            // Classify the image.
+            model.classify(img).then(predictions => {
+                console.log('Predictions: ');
+                console.log(predictions);
+                var accurate = predictions[0]['probability'] * 100;
+
+                document.getElementById("prediction").innerText = "예상 사물 : " + predictions[0]['className'] + "\n" + "정확도 : " + accurate.toFixed(1) + "%";
+            });
+        });
+    </script>
+</body>
+
+</html>
